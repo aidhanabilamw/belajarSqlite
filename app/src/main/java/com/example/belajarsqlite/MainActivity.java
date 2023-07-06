@@ -62,35 +62,41 @@ public class MainActivity extends AppCompatActivity {
                     //mhslist.add(new mhsModel (-1,isian_nama, isian_nim, isian_NoHp));
 
 
-                boolean stts;
-                   if (!isEdit){
-                       mm = new mhsModel(-1,isian_nama, isian_nim, isian_NoHp);
-                       stts = db.simpan(mm);
-                       ednama.setText("");
-                       ednim.setText("");
-                       edNoHp.setText("");
-                   }else{
-                      mm = new mhsModel(mm.getId(),isian_nama, isian_nim, isian_NoHp);
-                           stts = db.ubah(mm);
-                       }
+                    mhslist = db.List();
+                    if (mhslist.size() >= 5) {
+                        Toast.makeText(getApplicationContext(), "Data tidak boleh melebihi 5!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (isian_nama.isEmpty() || isian_nim.isEmpty() || isian_NoHp.isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "Isian Masih Kosong", Toast.LENGTH_SHORT).show();
+                        } else {
+                            //mhsList.add(new MhsModel(-1,isian_nama,isian_nim,isian_noHp));
 
-                   if(stts) {
-                       ednama.setText("");
-                       ednim.setText("");
-                       edNoHp.setText("");
+                            boolean stts;
+                            if (!isEdit) {
+                                mm = new mhsModel(-1, isian_nama, isian_nim, isian_NoHp);
+                                stts = db.simpan(mm);
+                                ednama.setText("");
+                                edNoHp.setText("");
+                                edNoHp.setText("");
 
+                            } else {
+                                mm = new mhsModel(mm.getId(), isian_nama, isian_nim, isian_NoHp);
+                                stts = db.ubah(mm);
+                            }
 
-                       Toast.makeText(MainActivity.this, "data berhasil disimpan", Toast.LENGTH_SHORT).show();
-                   }else {
-                       Toast.makeText(MainActivity.this, "data gagal disimpan", Toast.LENGTH_SHORT).show();
-                   }
+                            if (stts) {
+                                Toast.makeText(getApplicationContext(), "Data Berhasil Disimpan", Toast.LENGTH_SHORT)
+                                        .show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Data Gagal Disimpan", Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+                            //intent_list.putParcelableArrayListExtra("mhslist", mhslist);
+                            //startActivity(intent_list);
+                        }
+                    }
 
-                    //intent_list.putParcelableArrayListExtra("mhslist", mhslist);
-                    //startActivity(intent_list);
-                }
-            }
-
-        });
+                });
         Button lihatbtn = (Button) findViewById(R.id.lihatbtn);
         lihatbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +114,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            ;
+
         });
-    }}
+    }});}}
